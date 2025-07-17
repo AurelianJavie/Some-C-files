@@ -1,0 +1,68 @@
+#include <stdio.h>
+
+int factorial(int n) {
+    if (n == 0) {
+        return 1;
+    } else {
+        return n * factorial(n - 1); 
+    }
+}
+
+
+int fibonacci(int n) {
+    if (n <= 1) {
+        return n; 
+    } else {
+        return fibonacci(n - 1) + fibonacci(n - 2);
+    }
+}
+
+int main() {
+    char choice;
+    
+    printf("===The Fibonacci & Factorial calculator====");
+
+    printf("\nSelect an operation, [A] for factorial or [B] for Fibonacci: ");
+    scanf(" %c", &choice);
+
+    switch (choice) {
+        case 'A':
+        case 'a': {
+            int number;
+            printf("Enter an integer for factorial: ");
+            scanf("%d", &number);
+
+            if (number < 0) {
+                printf("Factorial is not defined for negative numbers.\n");
+            } else {
+                int result = factorial(number);
+                printf("The Factorial = %d\n", result);
+            }
+            break;
+        }
+        case 'B':
+        case 'b': {
+            int number;
+            printf("Enter the number of terms for the Fibonacci series: ");
+            scanf("%d", &number);
+
+            if (number < 0) {
+                printf("Number of terms cannot be negative.\n");
+            } else {
+                for (int i = 0; i < number; i++) {
+                    printf("%d ", fibonacci(i));
+                }
+                printf("\n");
+            }
+            break;
+        }
+        default:
+            printf("Invalid choice. Please enter A or B.\n");
+    }
+    
+    printf("\n====Thank You for using====");
+    
+    printf("\nName: Jaivivek Singh, CRN: 2315100, Group: G3");
+
+    return 0;
+}
