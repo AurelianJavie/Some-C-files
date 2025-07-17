@@ -1,0 +1,95 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_STUDENTS 30
+#define SUBJECTS 5
+
+struct Student {
+    char name[50];
+    int grades[SUBJECTS];
+};
+
+void findHighestGrade(struct Student students[], int count);
+void concatenateNames(char *dest, const char *name1, const char *name2);
+
+int main() {
+    struct Student students[MAX_STUDENTS];
+    int num_students;
+
+    printf("Enter number of students (max %d): ", MAX_STUDENTS);
+    scanf("%d", &num_students);
+    getchar();
+
+    if (num_students <= 0 || num_students > MAX_STUDENTS) {
+        printf("Invalid number of students.\n");
+        return 1;
+    }
+
+    for (int i = 0; i < num_students; i++) {
+        printf("\nStudent %d name: ", i + 1);
+        fgets(students[i].name, sizeof(students[i].name), stdin);
+        students[i].name[strcspn(students[i].name, "\n")] = 0;
+
+        for (int j = 0; j < SUBJECTS; j++) {
+            printf("Grade for Subject %d: ", j + 1);
+            scanf("%d", &students[i].grades[j]);
+        }
+        getchar();
+    }
+
+    printf("\n--- Student Records ---\n");
+    for (int i = 0; i < num_students; i++) {
+        printf("\n%s\nGrades: ", students[i].name);
+        for (int j = 0; j < SUBJECTS; j++) {
+            printf("%d ", students[i].grades[j]);
+        }
+        printf("\n");
+    }
+//most of the getchar and the 31st line is so make code efficient
+
+// this snippet compares two names
+    char name1[50], name2[50];
+    printf("\nEnter two student names to compare:\n");
+    fgets(name1, sizeof(name1), stdin);
+    fgets(name2, sizeof(name2), stdin);
+    name1[strcspn(name1, "\n")] = 0;
+    name2[strcspn(name2, "\n")] = 0;
+
+    if (strcmp(name1, name2) == 0) {
+        printf("The names are the same.\n");
+    } else {
+        printf("The names are different.\n");
+    }
+
+    // this snippet finds the highest grade
+    findHighestGrade(students, num_students);
+
+    // this concatenates the names
+    char combined[100];
+    concatenateNames(combined, name1, name2);
+    printf("Concatenated names: %s\n", combined);
+
+    return 0;
+}
+
+void findHighestGrade(struct Student students[], int count) {
+    int max = students[0].grades[0];
+    int s_idx = 0, subj_idx = 0;
+
+    for (int i = 0; i < count; i++) {
+        for (int j = 0; j < SUBJECTS; j++) {
+            if (students[i].grades[j] > max) {
+                max = students[i].grades[j];
+                s_idx = i;
+                subj_idx = j;
+            }
+        }
+    }
+
+    printf("\nHighest Grade: %d\nStudent: %s, Subject: %d\n", max, students[s_idx].name, subj_idx + 1);
+}
+
+void concatenateNames(char *dest, const char *name1, const char *name2) {
+    strcpy(dest, name1);
+    strcat(dest, name2);
+}
